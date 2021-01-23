@@ -1,0 +1,42 @@
+{
+  "name": "html-static",
+  "version": "0.1.0",
+  "description": "parse html string and transform",
+  "main": "./dist/html-static.js",
+  "module": "./src/index.ts",
+  "types": "./dist/html-static.d.ts",
+  "scripts": {
+    "build": "webpack --config __config__/webpack/prod.config.js",
+    "watch": "webpack --config __config__/webpack/prod.config.js --watch",
+    "tsc:build": "wsl rm -rf ./dist && tsc -p ./tsconfig.build.json",
+    "debug": "tsc -p ./tsconfig.build.json -w",
+    "test": "jest"
+  },
+  "keywords": [
+    "html-static",
+    "parse html",
+    "transform html",
+    "Ajanuw"
+  ],
+  "author": "Ajanuw",
+  "license": "MIT",
+  "homepage": "https://github.com/januwA/html-static",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/januwA/html-static.git"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.20",
+    "clean-webpack-plugin": "^3.0.0",
+    "jest": "^26.6.3",
+    "json5": "^2.1.3",
+    "terser-webpack-plugin": "^5.1.1",
+    "ts-jest": "^26.4.4",
+    "ts-loader": "^8.0.14",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3",
+    "webpack": "^5.16.0",
+    "webpack-cli": "^4.4.0"
+  },
+  "dependencies": {}
+}
