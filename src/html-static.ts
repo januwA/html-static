@@ -3,7 +3,7 @@ import {
   doctype,
   endTagExp,
   htmlCommentExp,
-  htmlCommentStartExp,
+  script_styleElementExp,
   startTagExp,
 } from "./exp";
 
@@ -264,37 +264,51 @@ export function htmlAst(html: string): AstElement {
     match = html.match(doctype);
     if (match) {
       isChars = false;
-      pushChild(new AstDoctype(match[1]));
       stepHtml();
+      pushChild(new AstDoctype(match[1]));
+    } else {
+      isChars = true;
     }
 
     match = html.match(htmlCommentExp);
-    if (html.match(htmlCommentStartExp) && match) {
+    if (match) {
       isChars = false;
       stepHtml();
       pushChild(new AstComment(match[1]));
+    } else {
+      isChars = true;
     }
 
-    if (html.startsWith("</")) {
-      // element结束标签
-      match = html.match(endTagExp); // 匹配结束tag
-      if (match) {
-        isChars = false;
-        stepHtml();
-        parseEndTag(match[1]);
-      }
-    } else if (/^\s*<[^!]/.test(html)) {
-      // element起始标签
-      match = html.match(startTagExp);
-      if (match) {
-        isChars = false;
-        stepHtml();
-        parseStartTag({
-          tagName: match.groups!.tagName.toLowerCase(),
-          attrs: match.groups!.attributes || "",
-          unary: !!match.groups!.unary,
-        });
-      }
+    // 在匹配标签之前先匹配style和script
+    match = html.match(script_styleElementExp);
+    if (match && match.groups) {
+      isChars = false;
+      stepHtml();
+      const style = new AstElement(match.groups.name!);
+      style.children.push(new AstText(match.groups.text!));
+      pushChild(style);
+    }
+
+    match = html.match(endTagExp); // 匹配结束tag
+    if (match) {
+      isChars = false;
+      stepHtml();
+      parseEndTag(match[1]);
+    } else {
+      isChars = true;
+    }
+
+    match = html.match(startTagExp); // 匹配起始tag
+    if (match) {
+      isChars = false;
+      stepHtml();
+      parseStartTag({
+        tagName: match.groups!.tagName.toLowerCase(),
+        attrs: match.groups!.attributes || "",
+        unary: !!match.groups!.unary,
+      });
+    } else {
+      isChars = true;
     }
 
     if (isChars) {
@@ -309,15 +323,14 @@ export function htmlAst(html: string): AstElement {
         text = html.substring(0, index);
         html = html.substring(index);
       }
-      // let sourceSpan = stepStartIndex(0, text.length);
-      const astText = new AstText(text);
-      pushChild(astText);
+
+      // 过滤空文本
+      if (text.trim()) pushChild(new AstText(text));
     }
   }
 
   function stepHtml() {
     if (!match) return;
-    // 斩掉匹配到字符串的长度
     html = html.substring(match[0].length + match.index! || 0);
   }
 
@@ -361,6 +374,8 @@ export function htmlAst(html: string): AstElement {
           "";
         astElement.setAttr(name, value);
         attrs = attrs.substring(attrMatch[0].length);
+      } else {
+        break;
       }
     }
 
@@ -373,13 +388,16 @@ export function htmlAst(html: string): AstElement {
   }
 
   function parseEndTag(endtagName: string) {
-    const last: undefined | AstElement = startTagBuffer.pop(); // 获取最后一个
+    const last: undefined | AstElement = startTagBuffer.pop();
     if (!last) {
+      console.log(html.slice(0, 100));
+
       throw new Error(`parseEndTag error: endtagName: ${endtagName}`);
     }
 
     if (last.name.toLowerCase() !== endtagName.toLowerCase()) {
-      throw `parseEndTag error: 开始标签(${last.name.toLowerCase()})与闭合标签(${endtagName.toLowerCase()})不匹配`;
+      console.log(html);
+      throw `parseEndTag Error: The start tag (${last.name.toLowerCase()}) and the end tag (${endtagName.toLowerCase()}) do not match`;
     }
     pushChild(last);
   }

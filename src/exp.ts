@@ -11,13 +11,6 @@ export const ncname = "[a-zA-Z_][\\w\\-\\.]*";
 export const qnameCapture = `((?:${ncname}\\:)?${ncname})`;
 
 /**
- * 匹配html tag的标签名
- *
- * <app-home
- */
-export const startTagOpenExp = new RegExp(`^<${qnameCapture}`);
-
-/**
  * 匹配tag: <([a-zA-Z_][\w\-\.]*)
  * 匹配任意个属性: (?<attributes>(?:\s*(?:[^\s"'<>\/=]+)\s*(?:=\s*(?:"(?:[^"]*)"+|'(?:[^']*)'+|(?:[^\s"'=<>`]+)))?)*)
  * 结尾: \s*(?<unary>\/?)>
@@ -29,7 +22,7 @@ export const startTagOpenExp = new RegExp(`^<${qnameCapture}`);
  * https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes
  *
  */
-export const startTagExp = /<(?<tagName>[a-zA-Z_][\w\-\.]*)(?<attributes>(?:\s*(?:[^\s"'<>\/=]+)\s*(?:=\s*(?:"(?:[^"]*)"+|'(?:[^']*)'+|(?:[^\s"'=<>`]+)))?)*)\s*(?<unary>\/?)>/;
+export const startTagExp = /^<(?<tagName>[a-zA-Z_][\w\-\.]*)(?<attributes>(?:\s*(?:[^\s"'<>\/=]+)\s*(?:=\s*(?:"(?:[^"]*)"+|'(?:[^']*)'+|(?:[^\s"'=<>`]+)))?)*)\s*(?<unary>\/?)>/;
 
 /**
  * 匹配起始标签的属性
@@ -45,6 +38,7 @@ export const attributeExp = /\s*(?<name>[^\s"'<>\/=]+)\s*(?:=\s*(?:"(?<v1>[^"]*)
 export const endTagExp = new RegExp(`^<\\/${qnameCapture}[^>]*>\\s*`);
 
 // 匹配html注释
-export const htmlCommentStartExp = /^\s*<!--/;
-export const htmlCommentExp = /<!--([^]*?)-->/;
-export const doctype = /<!\w+\s*([^>]*)>/i;
+export const htmlCommentExp = /^<!--([^]*?)-->/;
+export const doctype = /^<!\w+\s*([^>]*)>/i;
+
+export const script_styleElementExp = /^<(?<name>script|style)[^>]*>(?<value>[^]*?)<\/(?:script|style)>/i;

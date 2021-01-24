@@ -1,6 +1,6 @@
 {
   "name": "html-static",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "parse html string and transform",
   "main": "./dist/html-static.js",
   "module": "./src/index.ts",
@@ -26,12 +26,9 @@
     "url": "https://github.com/januwA/html-static.git"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.20",
     "clean-webpack-plugin": "^3.0.0",
-    "jest": "^26.6.3",
     "json5": "^2.1.3",
     "terser-webpack-plugin": "^5.1.1",
-    "ts-jest": "^26.4.4",
     "ts-loader": "^8.0.14",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3",

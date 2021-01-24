@@ -1,3 +1,7 @@
+## 0.1.3 2021/1/24
+
+- fix: Fixed a lot of parsing errors, mainly from regular expressions
+
 ## 0.1.2 2021/1/24
 
 - add dist file
