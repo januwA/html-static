@@ -1,3 +1,7 @@
+## 0.1.4 2021/1/24
+
+- fix: Add parent to text of style tag and script tag
+
 ## 0.1.3 2021/1/24
 
 - fix: Fixed a lot of parsing errors, mainly from regular expressions
