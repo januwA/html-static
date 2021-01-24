@@ -1,6 +1,6 @@
 {
   "name": "html-static",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "parse html string and transform",
   "main": "./dist/html-static.js",
   "module": "./src/index.ts",
