@@ -10,7 +10,7 @@ $ npm install html-static
 
 ## Example
 ```js
-const { htmlAst, traverse } = require("./dist/html-static.js");
+const { htmlAst, traverse } = require("html-static");
 
 let data = `
 <!DOCTYPE html>
