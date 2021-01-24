@@ -285,7 +285,7 @@ export function htmlAst(html: string): AstElement {
       isChars = false;
       stepHtml();
       const style = new AstElement(match.groups.name!);
-      const text = new AstText(match.groups.text!)
+      const text = new AstText(match.groups.value!)
       text.parent = style;
       style.children.push(text);
       pushChild(style);

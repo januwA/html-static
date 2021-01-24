@@ -1,3 +1,7 @@
+## 0.1.5 2021/1/24
+
+- fix: Add parent to AstText
+
 ## 0.1.4 2021/1/24
 
 - fix: Add parent to text of style tag and script tag
